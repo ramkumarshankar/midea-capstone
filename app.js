@@ -16,6 +16,12 @@ app.set('port', process.env.PORT || 8000)
 
 app.use(express.static(path.join(__dirname, '/public')))
 
+console.log(path.join(__dirname, '/public'))
+
+// View engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
 // API routes
 // Stories
 api.get('/stories', stories.index)
