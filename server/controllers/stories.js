@@ -1,5 +1,5 @@
 // Stories controller
-const db = require('./index')
+const db = require('./config')
 const collection = db.get('stories')
 
 module.exports = {
