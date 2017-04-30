@@ -1,0 +1,3 @@
+# Ignore client side code for now
+
+public/javascripts/*
