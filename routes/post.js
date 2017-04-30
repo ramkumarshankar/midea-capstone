@@ -6,8 +6,7 @@ var prompts = require('../server/seeders/prompts')
 /* Post story page */
 router.get('/', function (req, res, next) {
   console.log(prompts)
-  res.status(200).send('post page')
-    // res.render('post', { prompt: 'What is your earliest memory?' });
+  res.render('post', { prompt: 'What is your earliest memory?' });
 })
 
 module.exports = router
