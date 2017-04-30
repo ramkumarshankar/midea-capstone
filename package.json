@@ -14,6 +14,8 @@
     "express": "^4.15.2",
     "hbs": "^4.0.1",
     "method-override": "^2.3.8",
+    "mongodb": "^2.2.26",
+    "monk": "^4.0.0",
     "vue": "^2.2.6"
   },
   "devDependencies": {

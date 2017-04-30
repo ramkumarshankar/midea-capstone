@@ -8,6 +8,9 @@ const stories = require('./server/controllers/stories')
 const index = require('./routes/index')
 const post = require('./routes/post')
 
+// Get HTTP object for api calls
+const HTTP = require('./server/http-common.js')
+
 // Express config
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -16,11 +19,15 @@ app.set('port', process.env.PORT || 8000)
 
 app.use(express.static(path.join(__dirname, '/public')))
 
-console.log(path.join(__dirname, '/public'))
-
 // View engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hbs');
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'hbs')
+
+// Make the db accessible to the router
+app.use(function (req, res, next) {
+  req.HTTP = HTTP
+  next()
+})
 
 // API routes
 // Stories
