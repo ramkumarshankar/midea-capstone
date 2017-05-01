@@ -1,9 +1,12 @@
 body {
-  background-color: #333;
+  /*background-color: #333;*/
+  font-family: "Fedra Sans Pro Book";
+  font-weight: normal;
+  font-style: normal;
 }
 
 h1, h2, h3, h4, h5, p {
-  color: #fff;
+  color: #333;
 }
 
 h1, h2, h3, h4, h5 {
@@ -18,10 +21,73 @@ p {
   font-style: normal;
 }
 
+img.logo {
+  position: absolute;
+  top: 5%;
+  left:0;
+  right:0;
+  margin: auto;
+  max-height: 80px;
+}
+
 div.story {
   position: absolute;
   top:25%;
   left:5%;
   z-index: 100;
   background-color : transparent;
+}
+
+div.container {
+  padding-top:25%;
+  padding-bottom:5%;
+}
+
+div.form {
+  height: 50vh;
+}
+
+a.button {
+  margin-top: 5%;
+}
+
+a.button-clear {
+  text-align: left;
+  padding-left:0;
+  margin-bottom:0;
+}
+
+a#refreshBtn {
+  /*text-decoration: underline;*/
+}
+
+textarea {
+  width: 100%;
+  height: 100%;
+  font-size: 2.2rem;
+  font-family: "Fedra Sans Pro Book";
+  font-weight: normal;
+  font-style: normal;
+  resize: none;
+}
+
+canvas {
+  border:0px;
+  margin:0;
+  padding:0;
+  position: absolute;
+  top:0;
+  left:0;
+}
+
+/* Vue.js transition styles */
+
+.slidefade-enter-active, .slidefade-leave-active {
+    transition: all 1s ease;
+}
+
+.slidefade-enter, .slidefade-leave-to
+    /* .slide-fade-leave-active for <2.1.8 */ {
+    transform: translateY(30px);
+    opacity: 0;
 }

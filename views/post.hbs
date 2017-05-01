@@ -1,12 +1,21 @@
+<img class="logo" src="images/infinity.svg" />
 <div class="container">
-  <h1>Post page</h1>
-  <div class="content">
-      <div class="row">
-          <h3>{{ prompt }}</h3>
-      </div>
-      <div class="row story-text-">
-          <div class="column column-50"><textarea placeholder="" id="story"></textarea></div>
-      </div>
-  </div>
-  <a class="button" href="#">Share</a>
+    <div class="row">
+        <!-- Clear Button -->
+        {{!--<input class="button button-clear" type="submit" value="Another prompt">--}}
+        <a id="refreshBtn" class="button button-clear float-left" href="#">Refresh Prompt</a>
+    </div>
+    <div class="row">
+        <h4>{{ prompt }}</h4>
+    </div>
+    <div class="row form">
+    {{!--<div class="column column-50">--}}
+        <textarea placeholder="" id="story"></textarea>
+    </div>
+    <div class="row">
+        <a class="button" href="#">Share</a>
+    </div>
+    {{!--</div>--}}
+    
+    </div>
 </div>
