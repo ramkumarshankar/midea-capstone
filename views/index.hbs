@@ -4,36 +4,12 @@
 </div>
 {{!--<h1>{{ title }}</h1>--}}
 {{!--<p>Welcome to {{ title }}</p>--}}
-<script src="javascripts/index.js"></script>
-<script src="javascripts/animate.js"></script>
+{{!--<script src="javascripts/index.js"></script>
+<script src="javascripts/animate.js"></script>--}}
 <script>
   var data = {{{ data }}};
   console.log(data);
   console.log("{{{ title }}}");
-
-var app = new Vue({
-  el: '#app',
-  data: {
-    currentIndex: 0,
-    bShowStory: true,
-    stories: {{{ data }}},
-    prompt: "",
-    story: ""
-  },
-  components: {
-    'heading': {
-      props: ['prompt', 'story'],
-      template: "<div class='story'><h3 v-html='prompt'></h3><p v-html='story'></p></div>"
-    }
-  },
-  created: function() {
-    this.updateStory(0);
-  },
-  methods: {
-    updateStory: function (index) {
-      this.prompt = this.stories[index].prompt;
-      this.story = this.stories[index].text;
-    }
-  }
-})
 </script>
+<script src="javascripts/index.js"></script>
+<script src="javascripts/animate.js"></script>
