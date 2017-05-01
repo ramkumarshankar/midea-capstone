@@ -1,6 +1,22 @@
-/*body {
+body {
   background-color: #333;
-}*/
+}
+
+h1, h2, h3, h4, h5, p {
+  color: #fff;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Fedra Sans Pro';
+  font-weight: 300;
+  font-style: normal;
+}
+
+p {
+  font-family: "Fedra Sans Pro Book";
+  font-weight: normal;
+  font-style: normal;
+}
 
 div.story {
   position: absolute;
