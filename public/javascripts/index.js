@@ -4,7 +4,8 @@ var index = 0;
 var interval = 5000;
 
 var particles = [];
-var numParticles = 100;
+var numParticles = 50;
+var distance = 100;
 
 var width;
 var height;
@@ -147,10 +148,23 @@ Sketch.create({
     this.b = 255 * abs(cos(PI * this.mouse.y / this.width))
   },
   draw() {
-    this.fillStyle = '#333'
+    this.fillStyle = '#fff'
     this.fillRect(0, 0, this.width, this.height)
     for (i = 0; i < particles.length; i++) {
       particles[i].draw(this)
+    }
+    for (i = 0; i < particles.length; i++) {
+      for (j = i+1 ; j < particles.length; j++) {
+        var dist = this.distance(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+        if (dist < distance) {
+          this.beginPath();
+          this.moveTo(particles[i].x, particles[i].y);
+          this.lineTo(particles[j].x, particles[j].y);
+          this.lineWidth = 0.1;
+          this.strokeStyle = '#333';
+          this.stroke();
+        }
+      }
     }
   },
   distance(x1, y1, x2, y2) {
