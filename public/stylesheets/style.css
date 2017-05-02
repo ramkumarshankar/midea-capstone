@@ -91,3 +91,13 @@ canvas {
     transform: translateY(30px);
     opacity: 0;
 }
+
+.promptfade-enter-active, .promptfade-leave-active {
+    transition: all 1s ease;
+}
+
+.promptfade-enter, .promptfade-leave-to
+    /* .slide-fade-leave-active for <2.1.8 */ {
+    transform: translateX(50px);
+    opacity: 0;
+}

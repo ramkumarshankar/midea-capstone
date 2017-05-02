@@ -1,6 +1,9 @@
 <img class="logo" src="images/infinity.svg" />
 <div id="app" class="container">
-    <prompt v-if="bShowPrompt" v-on:refresh-prompt="changePrompt" :prompt="currentPrompt"></prompt>
+    <div class='row'>
+        <a id='refreshBtn' v-on:click='hidePrompt' class='button button-clear float-left' href='#'>Refresh Prompt</a>
+    </div>
+    <prompt v-if="bShowPrompt" v-on:refresh-prompt="changePrompt" v-on:show-prompt="showPrompt" :prompt="currentPrompt"></prompt>
     <div class="row form">
         <textarea placeholder="" id="story"></textarea>
     </div>
