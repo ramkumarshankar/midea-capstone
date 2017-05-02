@@ -3,22 +3,41 @@ console.log(numStories);
 var index = 0;
 var interval = 5000;
 
-var particle;
+var particles = [];
+var numParticles = 100;
+
+var width;
+var height;
 
 var Particle = {
   x: 0,
   y: 0,
   vx: 1,
   vy: 1,
-  radius: 10,
+  radius: 0.1,
+  wander: 50,
   color: '#fff',
   init: function(_x, _y) {
     this.x = _x;
     this.y = _y;
+    this.theta = random( TWO_PI );
+    this.alive = true;
   },
-  move: function() {
+  update: function() {
+    if (this.radius < 0.5) {
+      this.radius += 0.01;
+    }
     this.x += this.vx;
     this.y += this.vy;
+    this.theta += random( -0.5, 0.5 ) * this.wander;
+    this.vx += sin( this.theta ) * 0.1;
+    this.vy += cos( this.theta ) * 0.1;
+    if (this.x < 0 || this.x > width) {
+      this.alive = false;
+    }
+    if (this.y < 0 || this.y > height) {
+      this.alive = false;
+    }
   },
   draw: function(ctx) {
     ctx.beginPath();
@@ -70,13 +89,20 @@ Sketch.create({
   setup() {
     this.r = this.g = this.b = random(100, 200)
     this.startTime = this.millis;
+    this.removed = false;
     app.updateStory(index);
 
+    width = this.width;
+    height = this.height;
+
     //Create a particle
-    particle = Object.create(Particle);
-    x = ( this.width * 0.5 ) + random( -100, 100 );
-    y = ( this.height * 0.5 ) + random( -100, 100 );
-    particle.init(x, y);
+    for (i = 0; i < numParticles; i++) {
+      x = random ( this.width )
+      y = random ( this.height )
+      var particle = Object.create(Particle);
+      particle.init(x, y)
+      particles.push(particle)
+    }
     
   },
   update() {
@@ -91,7 +117,29 @@ Sketch.create({
       }
       index += 1;
     }
-    particle.move();
+    for (i = 0; i < particles.length; i++) {
+      if (!particles[i].alive) {
+        particles.splice(i, 1);
+        this.removed = true;
+      }
+    }
+    if (this.removed) {
+      var numToAdd = numParticles - particles.length;
+      for (i=0; i < numToAdd; i++) {
+        x = random ( this.width )
+        y = random ( this.height )
+        var particle = Object.create(Particle)
+        particle.init(x, y)
+        particles.push(particle)
+      }
+      this.removed = false;
+    }
+    for (i = 0; i < particles.length; i++) {
+      if (particles[i].alive) {
+        particles[i].update();
+      }
+    }
+
   },
   mousemove() {
     this.r = 255 * (this.mouse.x / this.width)
@@ -99,8 +147,13 @@ Sketch.create({
     this.b = 255 * abs(cos(PI * this.mouse.y / this.width))
   },
   draw() {
-    this.fillStyle = `rgb(${~~this.r},${~~this.g},${~~this.b})`
+    this.fillStyle = '#333'
     this.fillRect(0, 0, this.width, this.height)
-    particle.draw(this);
+    for (i = 0; i < particles.length; i++) {
+      particles[i].draw(this)
+    }
+  },
+  distance(x1, y1, x2, y2) {
+    return sqrt( pow((x1-x2),2) + pow((y1-y2),2) );
   }
 });
