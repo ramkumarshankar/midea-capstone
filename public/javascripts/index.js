@@ -3,6 +3,31 @@ console.log(numStories);
 var index = 0;
 var interval = 5000;
 
+var particle;
+
+var Particle = {
+  x: 0,
+  y: 0,
+  vx: 1,
+  vy: 1,
+  radius: 10,
+  color: '#fff',
+  init: function(_x, _y) {
+    this.x = _x;
+    this.y = _y;
+  },
+  move: function() {
+    this.x += this.vx;
+    this.y += this.vy;
+  },
+  draw: function(ctx) {
+    ctx.beginPath();
+    ctx.arc( this.x, this.y, this.radius, 0, TWO_PI );
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
+};
+
 var app = new Vue({
   el: '#app',
   data: {
@@ -46,7 +71,13 @@ Sketch.create({
     this.r = this.g = this.b = random(100, 200)
     this.startTime = this.millis;
     app.updateStory(index);
-    console.log(this.now);
+
+    //Create a particle
+    particle = Object.create(Particle);
+    x = ( this.width * 0.5 ) + random( -100, 100 );
+    y = ( this.height * 0.5 ) + random( -100, 100 );
+    particle.init(x, y);
+    
   },
   update() {
     if (this.millis - this.startTime > 5000) {
@@ -60,6 +91,7 @@ Sketch.create({
       }
       index += 1;
     }
+    particle.move();
   },
   mousemove() {
     this.r = 255 * (this.mouse.x / this.width)
@@ -69,5 +101,6 @@ Sketch.create({
   draw() {
     this.fillStyle = `rgb(${~~this.r},${~~this.g},${~~this.b})`
     this.fillRect(0, 0, this.width, this.height)
+    particle.draw(this);
   }
 });
