@@ -15,6 +15,14 @@ h1, h2, h3, h4, h5 {
   font-style: normal;
 }
 
+label#storyprompt {
+  font-family: 'Fedra Sans Pro';
+  font-weight: 300;
+  font-style: normal;
+  color: #333;
+  font-size: 1.8rem;
+}
+
 p {
   font-family: "Fedra Sans Pro Book";
   font-weight: normal;
@@ -43,7 +51,7 @@ div.container {
   padding-bottom:5%;
 }
 
-div.form {
+div.form-textarea {
   height: 50vh;
 }
 

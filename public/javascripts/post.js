@@ -9,7 +9,7 @@ var app = new Vue({
   components: {
     'prompt': {
       props: ['prompt'],
-      template: "<transition name='promptfade' v-on:leave='emitRefresh' v-on:after-leave='emitShow'><div class='row'><h4>{{ prompt }}</h4></div></transition>",
+      template: "<transition name='promptfade' v-on:leave='emitRefresh' v-on:after-leave='emitShow'><label id='storyprompt' for='story'>{{ prompt }}</label></transition>",
       methods: {
         emitRefresh: function(el, done) {
           this.$emit('refresh-prompt')

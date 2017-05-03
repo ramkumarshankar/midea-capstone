@@ -1,15 +1,20 @@
 <img class="logo" src="images/infinity.svg" />
 <div id="app" class="container">
-    <div class='row'>
-        <a id='refreshBtn' v-on:click='hidePrompt' class='button button-clear float-left' href='#'>Refresh Prompt</a>
-    </div>
-    <prompt v-if="bShowPrompt" v-on:refresh-prompt="changePrompt" v-on:show-prompt="showPrompt" :prompt="currentPrompt"></prompt>
-    <div class="row form">
-        <textarea placeholder="" id="story"></textarea>
-    </div>
-    <div class="row">
-        <a class="button" href="#">Share</a>
-    </div>
+    <form>
+        <fieldset>
+        <div class='row'>
+            <a id='refreshBtn' v-on:click='hidePrompt' class='button button-clear float-left' href='#'>Refresh Prompt</a>
+        </div>
+        <prompt v-if="bShowPrompt" v-on:refresh-prompt="changePrompt" v-on:show-prompt="showPrompt" :prompt="currentPrompt"></prompt>
+        <input type="hidden" name="prompt" v-model="currentPrompt">
+        <div class="form-textarea">
+            <textarea placeholder="" id="story"></textarea>
+        </div>
+        <div class="row">
+            <a class="button" href="#">Share</a>
+        </div>
+        </fieldset>
+    </form>
 </div>
 <script>
   var prompts = {{{ prompts }}};
