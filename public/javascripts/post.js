@@ -24,7 +24,6 @@ var app = new Vue({
           done()
         },
         emitShow: function(el) {
-          console.log('emit show');
           this.$emit('show-prompt');
         }
       }
