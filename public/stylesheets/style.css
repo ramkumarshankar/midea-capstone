@@ -55,11 +55,15 @@ div.form-textarea {
   height: 50vh;
 }
 
-a.button {
+input[type=submit] {
   margin-top: 5%;
+  font-family: "Fedra Sans Pro Book";
+  font-weight: normal;
+  font-style: normal;
 }
 
 a.button-clear {
+  margin-top: 5%;
   text-align: left;
   padding-left:0;
   margin-bottom:0;

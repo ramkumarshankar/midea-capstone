@@ -14,6 +14,7 @@ const HTTP = require('./server/http-common.js')
 // Express config
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
 app.use(methodOverride())
 app.set('port', process.env.PORT || 8000)
 
@@ -32,7 +33,7 @@ app.use(function (req, res, next) {
 // API routes
 // Stories
 api.get('/stories', stories.index)
-// router.post('/stories', stories.create)
+api.post('/stories', stories.create)
 
 // App routes
 app.use('/post', post)
