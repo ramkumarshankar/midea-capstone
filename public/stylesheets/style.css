@@ -85,6 +85,7 @@ textarea {
   font-weight: normal;
   font-style: normal;
   resize: none;
+  background-color: #fff;
 }
 
 canvas {
