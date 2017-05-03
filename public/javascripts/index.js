@@ -17,7 +17,7 @@ var Particle = {
   vy: 1,
   radius: 0.1,
   wander: 50,
-  color: '#fff',
+  color: '#333',
   init: function(_x, _y) {
     this.x = _x;
     this.y = _y;
@@ -60,7 +60,7 @@ var app = new Vue({
   components: {
     'heading': {
       props: ['prompt', 'story'],
-      template: "<transition name='slidefade'><div class='story'><h3>{{ prompt }}</h3><p>{{ story }}</p></div></transition>"
+      template: "<transition name='slidefade'><div class='story'><h6>{{ prompt }}</h6><h3>{{ story }}</h3></div></transition>"
     }
   },
   created: function() {
@@ -160,7 +160,7 @@ Sketch.create({
           this.beginPath();
           this.moveTo(particles[i].x, particles[i].y);
           this.lineTo(particles[j].x, particles[j].y);
-          this.lineWidth = 0.1;
+          this.lineWidth = 0.2;
           this.strokeStyle = '#333';
           this.stroke();
         }

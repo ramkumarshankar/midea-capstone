@@ -3,14 +3,18 @@
     <form name="postForm" action="/post" method="post" onsubmit="return validateForm()">
         <fieldset>
         <div class='row'>
-            <a id='refreshBtn' v-on:click='hidePrompt' class='button button-clear float-left' href='#'>Refresh Prompt</a>
+            <a id='refreshBtn' v-on:click='hidePrompt' class='button button-clear float-left' href='#'>Change Question</a>
         </div>
-        <prompt v-if="bShowPrompt" v-on:refresh-prompt="changePrompt" v-on:show-prompt="showPrompt" :prompt="currentPrompt"></prompt>
+        <div class='row'>
+            <prompt v-if="bShowPrompt" v-on:refresh-prompt="changePrompt" v-on:show-prompt="showPrompt" :prompt="currentPrompt"></prompt>
+        </div>
         <input type="hidden" name="prompt" v-model="currentPrompt">
-        <div class="form-textarea">
-            <textarea name="story" placeholder="Share a story"></textarea>
+        <div class='row'>
+            <div class="form-textarea">
+                <textarea name="story" placeholder="write..."></textarea>
+            </div>
         </div>
-        <div class="row">`
+        <div class="row">
             <input class="button-primary" type="submit" value="Share">
         </div>
         </fieldset>
