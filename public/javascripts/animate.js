@@ -1,137 +1,111 @@
-// ----------------------------------------
-// Particle
-// ----------------------------------------
-
-function Particle( x, y, radius ) {
-    this.init( x, y, radius );
-}
-
-Particle.prototype = {
-
-    init: function( x, y, radius ) {
-
-        this.alive = true;
-
-        this.radius = radius || 10;
-        this.wander = 0.15;
-        this.theta = random( TWO_PI );
-        this.drag = 0.92;
-        this.color = '#fff';
-
-        this.x = x || 0.0;
-        this.y = y || 0.0;
-
-        this.vx = 0.0;
-        this.vy = 0.0;
-    },
-
-    move: function() {
-
-        this.x += this.vx;
-        this.y += this.vy;
-
-        this.vx *= this.drag;
-        this.vy *= this.drag;
-
-        this.theta += random( -0.5, 0.5 ) * this.wander;
-        this.vx += sin( this.theta ) * 0.1;
-        this.vy += cos( this.theta ) * 0.1;
-
-        this.radius *= 0.96;
-        this.alive = this.radius > 0.5;
-    },
-
-    draw: function( ctx ) {
-
-        ctx.beginPath();
-        ctx.arc( this.x, this.y, this.radius, 0, TWO_PI );
-        ctx.fillStyle = this.color;
-        ctx.fill();
-    }
-};
-
-// ----------------------------------------
-// Example
-// ----------------------------------------
-
-var MAX_PARTICLES = 280;
-var COLOURS = [ '#69D2E7', '#A7DBD8', '#E0E4CC', '#F38630', '#FA6900', '#FF4E50', '#F9D423' ];
-
 var particles = [];
-var pool = [];
+var numParticles = 50;
+var distance = 100;
 
-var demo = Sketch.create({
-    container: document.getElementById( 'container' ),
-    retina: 'auto'
-});
+var width;
+var height;
 
-demo.setup = function() {
-
-    // Set off some initial particles.
-    var i, x, y;
-
-    for ( i = 0; i < 20; i++ ) {
-        x = ( demo.width * 0.5 ) + random( -100, 100 );
-        y = ( demo.height * 0.5 ) + random( -100, 100 );
-        demo.spawn( x, y );
+var Particle = {
+  x: 0,
+  y: 0,
+  vx: 1,
+  vy: 1,
+  radius: 0.1,
+  wander: 50,
+  color: '#fff',
+  init: function(_x, _y) {
+    this.x = _x;
+    this.y = _y;
+    this.theta = random( TWO_PI );
+    this.alive = true;
+  },
+  update: function() {
+    if (this.radius < 0.5) {
+      this.radius += 0.01;
     }
+    this.x += this.vx;
+    this.y += this.vy;
+    this.theta += random( -0.5, 0.5 ) * this.wander;
+    this.vx += sin( this.theta ) * 0.1;
+    this.vy += cos( this.theta ) * 0.1;
+    if (this.x < 0 || this.x > width) {
+      this.alive = false;
+    }
+    if (this.y < 0 || this.y > height) {
+      this.alive = false;
+    }
+  },
+  draw: function(ctx) {
+    ctx.beginPath();
+    ctx.arc( this.x, this.y, this.radius, 0, TWO_PI );
+    ctx.fillStyle = this.color;
+    ctx.fill();
+  }
 };
 
-demo.spawn = function( x, y ) {
+Sketch.create({
+  container: document.getElementById( 'container' ),
+  retina: 'auto',
+  setup() {
+    width = this.width;
+    height = this.height;
+
+    //Create a particle
+    for (i = 0; i < numParticles; i++) {
+      x = random ( this.width )
+      y = random ( this.height )
+      var particle = Object.create(Particle);
+      particle.init(x, y)
+      particles.push(particle)
+    }
     
-    var particle, theta, force;
-
-    if ( particles.length >= MAX_PARTICLES )
-        pool.push( particles.shift() );
-
-    particle = pool.length ? pool.pop() : new Particle();
-    particle.init( x, y, random( 5, 40 ) );
-
-    particle.wander = random( 0.5, 2.0 );
-    particle.color = random( COLOURS );
-    particle.drag = random( 0.9, 0.99 );
-
-    theta = random( TWO_PI );
-    force = random( 2, 8 );
-
-    particle.vx = sin( theta ) * force;
-    particle.vy = cos( theta ) * force;
-
-    particles.push( particle );
-};
-
-demo.update = function() {
-
-    var i, particle;
-
-    for ( i = particles.length - 1; i >= 0; i-- ) {
-
-        particle = particles[i];
-
-        if ( particle.alive ) particle.move();
-        else pool.push( particles.splice( i, 1 )[0] );
+  },
+  update() {
+    for (i = 0; i < particles.length; i++) {
+      if (!particles[i].alive) {
+        particles.splice(i, 1);
+        this.removed = true;
+      }
     }
-};
-
-demo.draw = function() {
-
-    demo.globalCompositeOperation  = 'lighter';
-
-    for ( var i = particles.length - 1; i >= 0; i-- ) {
-        particles[i].draw( demo );
+    if (this.removed) {
+      var numToAdd = numParticles - particles.length;
+      for (i=0; i < numToAdd; i++) {
+        x = random ( this.width )
+        y = random ( this.height )
+        var particle = Object.create(Particle)
+        particle.init(x, y)
+        particles.push(particle)
+      }
+      this.removed = false;
     }
-};
+    for (i = 0; i < particles.length; i++) {
+      if (particles[i].alive) {
+        particles[i].update();
+      }
+    }
 
-demo.mousemove = function() {
-
-    var particle, theta, force, touch, max, i, j, n;
-
-    for ( i = 0, n = demo.touches.length; i < n; i++ ) {
-
-        touch = demo.touches[i], max = random( 1, 4 );
-        for ( j = 0; j < max; j++ ) {
-          demo.spawn( touch.x, touch.y );
+  },
+  draw() {
+    this.fillStyle = '#fff'
+    this.fillRect(0, 0, this.width, this.height)
+    for (i = 0; i < particles.length; i++) {
+      particles[i].draw(this)
+    }
+    for (i = 0; i < particles.length; i++) {
+      for (j = i+1 ; j < particles.length; j++) {
+        var dist = this.distance(particles[i].x, particles[i].y, particles[j].x, particles[j].y);
+        if (dist < distance) {
+          this.beginPath();
+          this.moveTo(particles[i].x, particles[i].y);
+          this.lineTo(particles[j].x, particles[j].y);
+          this.lineWidth = 0.1;
+          this.strokeStyle = '#333';
+          this.stroke();
         }
-
+      }
     }
-};
+  },
+  distance(x1, y1, x2, y2) {
+    return sqrt( pow((x1-x2),2) + pow((y1-y2),2) );
+  }
+});
