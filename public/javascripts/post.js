@@ -1,3 +1,11 @@
+function validateForm() {
+  var x = document.forms["postForm"]["story"].value;
+    if (x == "") {
+        alert("Please share an anecdote with the community");
+        return false;
+    }
+}
+
 var app = new Vue({
   el: '#app',
   data: {
