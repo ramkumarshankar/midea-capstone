@@ -5,10 +5,6 @@ const methodOverride = require('method-override')
 const api = express.Router()
 const path = require('path')
 
-// Socket.io
-const server = require('http').createServer(app)
-const io = require('socket.io')(server)
-
 // Controllers
 const stories = require('./server/controllers/stories')
 const prompts = require('./server/controllers/prompts')
@@ -54,8 +50,13 @@ app.use('/', index)
 app.use('/post', post)
 app.use('/about', about)
 
+// start server
+const server = app.listen(app.get('port'), function () {
+  console.log('Server started on port', app.get('port'))
+})
+
 // Socket.io
-server.listen(process.env.PORT || 3000)
+const io = require('socket.io')(server)
 
 io.on('connection', function (socket) {
   socket.on('refresh', function (data) {
@@ -63,9 +64,4 @@ io.on('connection', function (socket) {
       socket.emit('refreshData', stories.data)
     })
   })
-})
-
-// start server
-app.listen(app.get('port'), function () {
-  console.log('Server started on port', app.get('port'))
 })
