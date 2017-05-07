@@ -31,13 +31,21 @@ var app = new Vue({
     }
   },
   created: function() {
-    this.changePrompt()
+    // this.changePrompt()
+    var selected = Math.floor(Math.random() * this.prompts.length)
+    this.currentPrompt = prompts[selected].prompt;
+    this.currentPromptId = prompts[selected]._id;
+    this.currentIndex = selected;
   },
   methods: {
     changePrompt: function () {
-      var selected = Math.floor(Math.random() * this.prompts.length);
+      var selected = Math.floor(Math.random() * this.prompts.length)
+      while (this.currentIndex == selected) {
+        selected = Math.floor(Math.random() * this.prompts.length)
+      }
       this.currentPrompt = prompts[selected].prompt;
       this.currentPromptId = prompts[selected]._id;
+      this.currentIndex = selected;
     },
     hidePrompt: function () {
       this.bShowPrompt = false;
