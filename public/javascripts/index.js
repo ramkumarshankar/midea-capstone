@@ -14,9 +14,8 @@ var bReset = false;
 var width;
 var height;
 
-
-// TODO: get url from server
-var socket = io.connect('http://localhost:3000')
+// Socket.io server
+var socket = io.connect(socketServer)
 
 function refreshData () {
   socket.emit('refresh', {})
