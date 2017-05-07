@@ -55,6 +55,8 @@ app.use('/post', post)
 app.use('/about', about)
 
 // Socket.io
+server.listen(process.env.PORT || 3000)
+
 io.on('connection', function (socket) {
   socket.on('refresh', function (data) {
     HTTP.get('/api/stories').then(function (stories) {
@@ -62,7 +64,6 @@ io.on('connection', function (socket) {
     })
   })
 })
-server.listen(3000)
 
 // start server
 app.listen(app.get('port'), function () {

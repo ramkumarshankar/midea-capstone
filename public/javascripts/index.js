@@ -15,7 +15,8 @@ var width;
 var height;
 
 // Socket.io server
-var socket = io.connect(socketServer)
+// var socket = io.connect(socketServer)
+var socket = io();
 
 function refreshData () {
   socket.emit('refresh', {})
