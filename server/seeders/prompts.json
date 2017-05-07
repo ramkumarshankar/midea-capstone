@@ -3,7 +3,10 @@
     "prompt": "Who has been the most important person of your life?"
   },
   {
-    "prompt": "What are you grateful for today?"
+    "prompt": "What kind of student are you?"
+  },
+  {
+    "prompt": "Do you have any regrets?"
   },
   {
     "prompt": "What did not go well today?"
@@ -12,18 +15,24 @@
     "prompt": "What is your earliest memory?"
   },
   {
-    "prompt": "When in life have you felt alone?"
+    "prompt": "When was the last time you felt lonely?"
   },
   {
     "prompt": "What are your hopes for the future?"
   },
   {
-    "prompt": "Do you have any regrets?"
+    "prompt": "What do you worry about?"
   },
   {
     "prompt": "What was your childhood like?"
   },
   {
     "prompt": "How would your friends remember you?"
+  },
+  {
+    "prompt": "What are you most proud of?"
+  },
+  {
+    "prompt": "What are you grateful for today?"
   }
 ]
