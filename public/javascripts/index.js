@@ -10,6 +10,7 @@ var distance = 100;
 
 var scrollCount = 0
 var bReset = false;
+var bScrolling = false;
 
 var width;
 var height;
@@ -59,6 +60,7 @@ var Prompt = {
   text: '',
   color: 'rgba(155, 77, 202, 1)',
   alpha: 1,
+  animating: true,
   init: function(_text, _x, _y) {
     this.text = _text;
     this.x = _x;
@@ -77,6 +79,14 @@ var Prompt = {
     }
     else if (this.newY > this.y) {
       this.y += 8
+    }
+    // if (abs(this.newY - this.y) < 2) {
+      // this.y = this.newY;
+    // }
+    if (this.newY != this.y) {
+      this.animating = true;
+    } else {
+      this.animating = false;
     }
   },
   draw: function(ctx) {
@@ -183,7 +193,7 @@ Sketch.create({
     //Create prompts
     var xPos = 20;
     var y = height/2;
-    var yStep = height/6;
+    var yStep = Math.floor(height/6)
     for (i = 0; i < numPrompts; i++) {
       x = xPos;
       var prompt = Object.create(Prompt)
@@ -200,29 +210,44 @@ Sketch.create({
     
   },
   update() {
-    if (this.millis - this.startTime > 5000) {
-      if (activePromptIndex == numPrompts-1) {
-        // TODO: reset
-        bReset = true;
+    var animInProgress = false;
+    for (i = 0; i < promptsArray.length; i++) {
+      if (promptsArray[i].animating) {
+        animInProgress = true;
+        break;
       }
-      this.startTime = this.millis;
-      app.toggleStory();
-      if (app.bShowStory == false) {
-        storyIndex += 1;
-        if (storyIndex >= app.currentStories.length) {
-          storyIndex = 0;
-          activePromptIndex += 1;
-          scrollCount = 1;
-          app.setupStories(activePromptIndex);
-        }
-        if (app.currentStories.length > 0) {
+    }
+
+    if (!animInProgress) {
+      if (this.millis - this.startTime > 2000) {
+        this.startTime = this.millis;
+        app.toggleStory();
+        if (app.bShowStory == false) {
+          // Last prompt, reset
+          if (activePromptIndex == numPrompts-1) {
+            // TODO: reset
+            bReset = true;
+            activePromptIndex = 0;
+            app.setupStories(activePromptIndex);
+          }
+          else {
+            storyIndex += 1;
+            if (storyIndex >= app.currentStories.length) {
+              storyIndex = 0;
+              app.currentStories = [];
+              while (app.currentStories.length == 0) {
+                activePromptIndex += 1;
+                scrollCount += 1;
+                app.setupStories(activePromptIndex);
+              }
+            }
+          }
           app.updateStory(storyIndex);
-        }
-        else {
-          app.clearStory();
         }
       }
     }
+    
+
     for (i = 0; i < particles.length; i++) {
       if (!particles[i].alive) {
         particles.splice(i, 1);
@@ -247,7 +272,7 @@ Sketch.create({
     }
     if (scrollCount > 0) {
       for (i = 0; i < promptsArray.length; i++) {
-        promptsArray[i].newY -= height/6
+        promptsArray[i].newY -= Math.floor(height/6)
         if (i === activePromptIndex) {
           promptsArray[i].setActive()
         }
@@ -256,12 +281,12 @@ Sketch.create({
         }
       }
       scrollCount--;
+      bScrolling = true;
     }
 
     if (bReset) {
       for (i = 0; i < promptsArray.length; i++) {
-        activePromptIndex = 0;
-        promptsArray[i].newY += (promptsArray.length-1) * height/6
+        promptsArray[i].newY += (promptsArray.length-1) * Math.floor(height/6)
         if (i === activePromptIndex) {
           promptsArray[i].setActive()
         }
