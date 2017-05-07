@@ -22,7 +22,8 @@ function refreshData () {
 }
 
 socket.on('refreshData', function (data) {
-  app.stories = data;
+  console.log("refreshing data")
+  app.stories = data
 });
 
 var Particle = {
@@ -230,7 +231,7 @@ Sketch.create({
     }
 
     if (!animInProgress && scrollCount == 0) {
-      if (this.millis - this.startTime > 2000) {
+      if (this.millis - this.startTime > 4000) {
         this.startTime = this.millis;
         app.toggleStory();
         if (app.bShowStory == false) {
@@ -249,8 +250,14 @@ Sketch.create({
               app.currentStories = [];
               while (app.currentStories.length == 0) {
                 activePromptIndex += 1;
+                var checkIndex = (activePromptIndex) % numPrompts;
                 scrollCount += 1;
-                app.setupStories(activePromptIndex);
+                app.setupStories(checkIndex);
+                if (activePromptIndex > 12) {
+                  scrollCount = 0;
+                  activePromptIndex = 3;
+                  break;
+                }
               }
             }
           }
