@@ -5,8 +5,9 @@ const methodOverride = require('method-override')
 const api = express.Router()
 const path = require('path')
 
-// Stories controller
+// Controllers
 const stories = require('./server/controllers/stories')
+const prompts = require('./server/controllers/prompts')
 
 // Define route handlers
 const index = require('./routes/index')
@@ -39,6 +40,8 @@ app.use(function (req, res, next) {
 // Stories
 api.get('/stories', stories.index)
 api.post('/stories', stories.create)
+// Prompts
+api.get('/prompts', prompts.index)
 
 app.use('/api', api)
 

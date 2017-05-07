@@ -5,9 +5,15 @@ var prompts = require('../server/seeders/prompts')
 
 /* Post story page */
 router.get('/', function (req, res, next) {
-  res.render('post', {
-    title: 'Share a story',
-    prompts: JSON.stringify(prompts)
+  req.HTTP.get('/api/prompts').then(function (response) {
+    console.log(response.data)
+    res.render('post', {
+      title: 'Share a story',
+      prompts: JSON.stringify(response.data)
+    })
+  }, function (err) {
+    console.error('error getting stories: ')
+    console.error(err)
   })
 })
 
