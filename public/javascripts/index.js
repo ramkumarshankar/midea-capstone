@@ -1,5 +1,5 @@
 var numPrompts = prompts.length;
-var activePromptIndex = 0;
+var activePromptIndex = 3;
 var storyIndex = 0;
 var interval = 5000;
 
@@ -10,7 +10,6 @@ var distance = 100;
 
 var scrollCount = 0
 var bReset = false;
-var bScrolling = false;
 
 var width;
 var height;
@@ -97,6 +96,7 @@ var Prompt = {
     var x = this.x;
     var y = this.y;
     ctx.fillStyle = this.color,
+    // ctx.fillStyle = 'rgba(77, 77, 77, 0.5)'
     ctx.globalAlpha = this.alpha;
     ctx.font = "16px Fedra Sans Pro";
     for(var n = 0; n < words.length; n++) {
@@ -192,13 +192,13 @@ Sketch.create({
 
     //Create prompts
     var xPos = 20;
-    var y = height/2;
+    var y = 0;
     var yStep = Math.floor(height/6)
-    for (i = 0; i < numPrompts; i++) {
+    for (i = 0; i < prompts.length; i++) {
       x = xPos;
       var prompt = Object.create(Prompt)
       prompt.init(prompts[i].prompt, x, y)
-      if (i === activePromptIndex) {
+      if (i === 3) {
         prompt.setActive()
       }
       else {
@@ -218,7 +218,7 @@ Sketch.create({
       }
     }
 
-    if (!animInProgress) {
+    if (!animInProgress && scrollCount == 0) {
       if (this.millis - this.startTime > 2000) {
         this.startTime = this.millis;
         app.toggleStory();
@@ -229,6 +229,7 @@ Sketch.create({
             bReset = true;
             activePromptIndex = 0;
             app.setupStories(activePromptIndex);
+            scrollCount += 1;
           }
           else {
             storyIndex += 1;
@@ -271,9 +272,11 @@ Sketch.create({
       }
     }
     if (scrollCount > 0) {
+      promptsArray.push(promptsArray.shift());
+      promptsArray[promptsArray.length-1].y = promptsArray[promptsArray.length-1].newY = promptsArray[promptsArray.length-2].y + Math.floor(height/6);
       for (i = 0; i < promptsArray.length; i++) {
         promptsArray[i].newY -= Math.floor(height/6)
-        if (i === activePromptIndex) {
+        if (i === 3) {
           promptsArray[i].setActive()
         }
         else {
@@ -281,19 +284,18 @@ Sketch.create({
         }
       }
       scrollCount--;
-      bScrolling = true;
     }
 
     if (bReset) {
-      for (i = 0; i < promptsArray.length; i++) {
-        promptsArray[i].newY += (promptsArray.length-1) * Math.floor(height/6)
-        if (i === activePromptIndex) {
-          promptsArray[i].setActive()
-        }
-        else {
-          promptsArray[i].setInactive()
-        }
-      }
+      // for (i = 0; i < promptsArray.length; i++) {
+      //   promptsArray[i].newY += (promptsArray.length-1) * Math.floor(height/6)
+      //   if (i === activePromptIndex) {
+      //     promptsArray[i].setActive()
+      //   }
+      //   else {
+      //     promptsArray[i].setInactive()
+      //   }
+      // }
       bReset = false;
     }
 
