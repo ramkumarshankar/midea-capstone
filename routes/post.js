@@ -21,21 +21,21 @@ router.post('/', function (req, res, next) {
   // Variables are in req.body.prompt and req.body.story
   // Route to about page
   var story = {
-    prompt: req.body.prompt,
+    promptId: req.body.promptId,
     text: req.body.story
   }
+  // res.render('thanks', {
+  //   title: 'Thank You'
+  // })
+  req.HTTP.post('/api/stories', story).then(function (response) {
+    console.log(response.data)
     res.render('thanks', {
       title: 'Thank You'
     })
-  // req.HTTP.post('/api/stories', story).then(function (response) {
-  //   console.log(response.data)
-  //   res.render('thanks', {
-  //     title: 'Thank You'
-  //   })
-  // }, function (err) {
-  //   console.error('error posting story :( ')
-  //   console.error(err)
-  // })
+  }, function (err) {
+    console.error('error posting story :( ')
+    console.error(err)
+  })
 })
 
 module.exports = router

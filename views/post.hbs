@@ -9,7 +9,7 @@
         <div class='row'>
             <prompt v-if="bShowPrompt" v-on:refresh-prompt="changePrompt" v-on:show-prompt="showPrompt" :prompt="currentPrompt"></prompt>
         </div>
-        <input type="hidden" name="prompt" v-model="currentPromptId">
+        <input type="hidden" name="promptId" v-model="currentPromptId">
         <div class='row'>
             <div class="form-textarea">
                 <textarea name="story" placeholder="Write here..."></textarea>
