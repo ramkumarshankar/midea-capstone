@@ -14,6 +14,18 @@ var bReset = false;
 var width;
 var height;
 
+
+// TODO: get url from server
+var socket = io.connect('http://localhost:3000')
+
+function refreshData () {
+  socket.emit('refresh', {})
+}
+
+socket.on('refreshData', function (data) {
+  app.stories = data;
+});
+
 var Particle = {
   x: 0,
   y: 0,
@@ -287,15 +299,7 @@ Sketch.create({
     }
 
     if (bReset) {
-      // for (i = 0; i < promptsArray.length; i++) {
-      //   promptsArray[i].newY += (promptsArray.length-1) * Math.floor(height/6)
-      //   if (i === activePromptIndex) {
-      //     promptsArray[i].setActive()
-      //   }
-      //   else {
-      //     promptsArray[i].setInactive()
-      //   }
-      // }
+      refreshData();
       bReset = false;
     }
 

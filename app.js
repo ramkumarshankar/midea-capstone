@@ -5,6 +5,10 @@ const methodOverride = require('method-override')
 const api = express.Router()
 const path = require('path')
 
+// Socket.io
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+
 // Controllers
 const stories = require('./server/controllers/stories')
 const prompts = require('./server/controllers/prompts')
@@ -49,6 +53,16 @@ app.use('/api', api)
 app.use('/', index)
 app.use('/post', post)
 app.use('/about', about)
+
+// Socket.io
+io.on('connection', function (socket) {
+  socket.on('refresh', function (data) {
+    HTTP.get('/api/stories').then(function (stories) {
+      socket.emit('refreshData', stories.data)
+    })
+  })
+})
+server.listen(3000)
 
 // start server
 app.listen(app.get('port'), function () {
