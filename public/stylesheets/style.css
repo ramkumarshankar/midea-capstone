@@ -42,6 +42,18 @@ img.logo {
   max-height: 80px;
 }
 
+a.about {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  margin: auto;
+  z-index: 100;
+}
+
+a.about img {
+  max-height: 80px;
+}
+
 div.story {
   position: absolute;
   top:25%;
@@ -69,7 +81,8 @@ div.container {
 }
 
 div.form-textarea {
-  height: 50vh;
+  height: 45vh;
+  margin-bottom:10px;
 }
 
 input[type=submit] {
