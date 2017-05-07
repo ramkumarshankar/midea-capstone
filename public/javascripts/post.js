@@ -12,6 +12,7 @@ var app = new Vue({
     currentIndex: 0,
     prompts: prompts,
     currentPrompt: "",
+    currentPromptId: "",
     bShowPrompt: true
   },
   components: {
@@ -30,11 +31,21 @@ var app = new Vue({
     }
   },
   created: function() {
-    this.currentPrompt = prompts[Math.floor(Math.random() * this.prompts.length)].prompt;
+    // this.changePrompt()
+    var selected = Math.floor(Math.random() * this.prompts.length)
+    this.currentPrompt = prompts[selected].prompt;
+    this.currentPromptId = prompts[selected]._id;
+    this.currentIndex = selected;
   },
   methods: {
     changePrompt: function () {
-      this.currentPrompt = prompts[Math.floor(Math.random() * this.prompts.length)].prompt;
+      var selected = Math.floor(Math.random() * this.prompts.length)
+      while (this.currentIndex == selected) {
+        selected = Math.floor(Math.random() * this.prompts.length)
+      }
+      this.currentPrompt = prompts[selected].prompt;
+      this.currentPromptId = prompts[selected]._id;
+      this.currentIndex = selected;
     },
     hidePrompt: function () {
       this.bShowPrompt = false;

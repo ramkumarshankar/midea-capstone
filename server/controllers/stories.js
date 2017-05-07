@@ -11,7 +11,7 @@ module.exports = {
     })
   },
   create (req, res) {
-    collection.insert({ prompt: req.body.prompt, text: req.body.text, enabled: false }).then(function (record) {
+    collection.insert({ text: req.body.text, promptId: req.body.promptId, enabled: false }).then(function (record) {
       console.log('record inserted with id ' + record._id)
       res.status(200).send('record inserted with id ' + record._id)
     })
