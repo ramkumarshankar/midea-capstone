@@ -4,9 +4,14 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const api = express.Router()
 const path = require('path')
+
+// Stories controller
 const stories = require('./server/controllers/stories')
+
+// Define route handlers
 const index = require('./routes/index')
 const post = require('./routes/post')
+const about = require('./routes/about')
 
 // Get HTTP object for api calls
 const HTTP = require('./server/http-common.js')
@@ -30,17 +35,17 @@ app.use(function (req, res, next) {
   next()
 })
 
-// API routes
+// Define and use API routes
 // Stories
 api.get('/stories', stories.index)
 api.post('/stories', stories.create)
 
-// App routes
-app.use('/post', post)
-app.use('/', index)
-
 app.use('/api', api)
-// app.use('/', router)
+
+// App routes
+app.use('/', index)
+app.use('/post', post)
+app.use('/about', about)
 
 // start server
 app.listen(app.get('port'), function () {

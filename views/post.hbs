@@ -1,4 +1,5 @@
 <img class="logo" src="images/infinity.svg" />
+<a class="about" href='/about'><img src="images/about-button.png" /></a>
 <div id="app" class="container">
     <form name="postForm" action="/post" method="post" onsubmit="return validateForm()">
         <fieldset>
@@ -11,8 +12,11 @@
         <input type="hidden" name="prompt" v-model="currentPrompt">
         <div class='row'>
             <div class="form-textarea">
-                <textarea name="story" placeholder="write..."></textarea>
+                <textarea name="story" placeholder="Write here..."></textarea>
             </div>
+        </div>
+        <div class='row'>
+            <strong><small>All contributions are anonymous.</small></strong>
         </div>
         <div class="row">
             <input class="button-primary" type="submit" value="Share">

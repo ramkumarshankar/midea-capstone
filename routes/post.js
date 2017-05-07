@@ -18,15 +18,18 @@ router.post('/', function (req, res, next) {
     prompt: req.body.prompt,
     text: req.body.story
   }
-  req.HTTP.post('/api/stories', story).then(function (response) {
-    console.log(response.data)
-    res.render('about', {
+    res.render('thanks', {
       title: 'Thank You'
     })
-  }, function (err) {
-    console.error('error posting story :( ')
-    console.error(err)
-  })
+  // req.HTTP.post('/api/stories', story).then(function (response) {
+  //   console.log(response.data)
+  //   res.render('thanks', {
+  //     title: 'Thank You'
+  //   })
+  // }, function (err) {
+  //   console.error('error posting story :( ')
+  //   console.error(err)
+  // })
 })
 
 module.exports = router
