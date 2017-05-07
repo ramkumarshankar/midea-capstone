@@ -1,4 +1,3 @@
-var numStories = stories.length;
 var numPrompts = prompts.length;
 var activePromptIndex = 0;
 var storyIndex = 0;
@@ -9,7 +8,8 @@ var numParticles = 50;
 var promptsArray = [];
 var distance = 100;
 
-var bScrollPrompt = false
+var scrollCount = 0
+var bReset = false;
 
 var width;
 var height;
@@ -75,6 +75,9 @@ var Prompt = {
     if (this.newY < this.y) {
       this.y -= 2
     }
+    else if (this.newY > this.y) {
+      this.y += 8
+    }
   },
   draw: function(ctx) {
     var words = this.text.split(' ');
@@ -117,14 +120,15 @@ var app = new Vue({
   },
   components: {
     'heading': {
-      props: ['prompt', 'story'],
+      props: ['story'],
       template: "<transition name='slidefade'><div class='story'><h3>{{ story }}</h3></div></transition>"
     }
   },
   created: function() {
     console.log('vue ready')
     this.setupStories(activePromptIndex)
-    updateStory(storyIndex)
+    this.updateStory(storyIndex)
+    this.showStory()
   },
   methods: {
     setupStories: function (activePromptIndex) {
@@ -139,16 +143,18 @@ var app = new Vue({
     updateStory: function (storyIndex) {
       // TODO
       this.story = this.currentStories[storyIndex]
-      this.showStory()
     },
     showStory: function() {
-      this.bShowStory = true;
+      this.bShowStory = true
     },
     hideStory: function() {
-      this.bShowStory = false;
+      this.bShowStory = false
     },
     toggleStory: function() {
-      this.bShowStory = !(this.bShowStory);
+      this.bShowStory = !(this.bShowStory)
+    },
+    clearStory: function() {
+      this.story = ""
     }
   }
 });
@@ -160,7 +166,7 @@ Sketch.create({
     this.r = this.g = this.b = random(100, 200)
     this.startTime = this.millis;
     this.removed = false;
-    app.updateStory(activePromptIndex, storyIndex);
+    app.updateStory(storyIndex);
 
     width = this.width;
     height = this.height;
@@ -195,16 +201,27 @@ Sketch.create({
   },
   update() {
     if (this.millis - this.startTime > 5000) {
-      // activepromptIndex = 1;
-      // this.startTime = this.millis;
-    //   if (index == numStories) {
-    //     index = 0;
-    //   }
-    //   app.toggleStory();
-    //   if (app.bShowStory == false) {
-    //     app.updateStory(index);
-    //   }
-    //   index += 1;
+      if (activePromptIndex == numPrompts-1) {
+        // TODO: reset
+        bReset = true;
+      }
+      this.startTime = this.millis;
+      app.toggleStory();
+      if (app.bShowStory == false) {
+        storyIndex += 1;
+        if (storyIndex >= app.currentStories.length) {
+          storyIndex = 0;
+          activePromptIndex += 1;
+          scrollCount = 1;
+          app.setupStories(activePromptIndex);
+        }
+        if (app.currentStories.length > 0) {
+          app.updateStory(storyIndex);
+        }
+        else {
+          app.clearStory();
+        }
+      }
     }
     for (i = 0; i < particles.length; i++) {
       if (!particles[i].alive) {
@@ -228,8 +245,7 @@ Sketch.create({
         particles[i].update();
       }
     }
-    if (bScrollPrompt) {
-      activePromptIndex += 1;
+    if (scrollCount > 0) {
       for (i = 0; i < promptsArray.length; i++) {
         promptsArray[i].newY -= height/6
         if (i === activePromptIndex) {
@@ -239,8 +255,23 @@ Sketch.create({
           promptsArray[i].setInactive()
         }
       }
-      bScrollPrompt = false
+      scrollCount--;
     }
+
+    if (bReset) {
+      for (i = 0; i < promptsArray.length; i++) {
+        activePromptIndex = 0;
+        promptsArray[i].newY += (promptsArray.length-1) * height/6
+        if (i === activePromptIndex) {
+          promptsArray[i].setActive()
+        }
+        else {
+          promptsArray[i].setInactive()
+        }
+      }
+      bReset = false;
+    }
+
     for (i = 0; i < promptsArray.length; i++) {
       promptsArray[i].update()
     }
@@ -287,5 +318,5 @@ Sketch.create({
     // this.strokeRect(0+(cornerRadius/2), this.height/2-40+(cornerRadius/2), 420-cornerRadius, 80-cornerRadius);
     // this.fillRect(0+(cornerRadius/2), this.height/2-40+(cornerRadius/2), 420-cornerRadius, 80-cornerRadius);
     this.fillRect(0, this.height/2-40, 420, 80)
-  }
+  },
 });
