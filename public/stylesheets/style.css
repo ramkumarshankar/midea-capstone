@@ -56,7 +56,7 @@ a.about img {
 
 div.story {
   position: absolute;
-  top:45%;
+  top:calc(100% / 2 - 28px);
   left:450px;
   width: 40%;
   z-index: 100;

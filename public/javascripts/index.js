@@ -14,6 +14,8 @@ var bReset = false;
 var width;
 var height;
 
+var rectX, rectY, lenX, lenY;
+
 // Socket.io server
 // var socket = io.connect(socketServer)
 var socket = io();
@@ -83,18 +85,20 @@ var Prompt = {
     this.color = '#fff'
   },
   setInactive: function () {
-    this.color = 'rgba(77, 77, 77, 0.5)'
+    this.color = 'rgba(77, 77, 77, 0.7)'
   },
   update: function() {
-    if (this.newY < this.y) {
-      this.y -= 2
-    }
-    else if (this.newY > this.y) {
-      this.y += 8
-    }
-    // if (abs(this.newY - this.y) < 2) {
-      // this.y = this.newY;
+    var dy = this.newY - this.y;
+    this.y += dy * 0.10;
+    // if (this.newY < this.y) {
+    //   this.y -= 2
     // }
+    // else if (this.newY > this.y) {
+    //   this.y += 8
+    // }
+    if (abs(this.newY - this.y) < 1) {
+      this.y = this.newY;
+    }
     if (this.newY != this.y) {
       this.animating = true;
     } else {
@@ -213,6 +217,10 @@ Sketch.create({
       prompt.init(prompts[i].prompt, x, y)
       if (i === 3) {
         prompt.setActive()
+        rectX = 0;
+        rectY = y - 50;
+        lenX = 400;
+        lenY = 90;
       }
       else {
         prompt.setInactive()
@@ -348,13 +356,7 @@ Sketch.create({
     return sqrt( pow((x1-x2),2) + pow((y1-y2),2) );
   },
   drawActivePromptRect() {
-    // var cornerRadius = 20;
     this.fillStyle = 'rgba(155, 77, 202, 0.9)'
-    // this.strokeStyle = 'rgba(155, 77, 202, 0.8)'
-    // this.lineJoin = "round" 
-    // this.lineWidth = cornerRadius;
-    // this.strokeRect(0+(cornerRadius/2), this.height/2-40+(cornerRadius/2), 420-cornerRadius, 80-cornerRadius);
-    // this.fillRect(0+(cornerRadius/2), this.height/2-40+(cornerRadius/2), 420-cornerRadius, 80-cornerRadius);
-    this.fillRect(0, this.height/2-40, 420, 80)
+    this.fillRect(rectX, rectY, lenX, lenY)
   },
 });
