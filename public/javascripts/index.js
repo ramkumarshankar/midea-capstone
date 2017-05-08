@@ -257,14 +257,16 @@ Sketch.create({
             if (storyIndex >= app.currentStories.length) {
               storyIndex = 0;
               app.currentStories = [];
+              var startIndex = activePromptIndex;
               while (app.currentStories.length == 0) {
                 activePromptIndex += 1;
                 var checkIndex = (activePromptIndex) % numPrompts;
                 scrollCount += 1;
                 app.setupStories(checkIndex);
-                if (activePromptIndex > 12) {
+                if (checkIndex == startIndex) {
                   scrollCount = 0;
-                  activePromptIndex = 3;
+                  activePromptIndex = startIndex;
+                  bReset = true;
                   break;
                 }
               }
