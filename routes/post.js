@@ -4,15 +4,8 @@ var router = express.Router()
 
 /* Post story page */
 router.get('/', function (req, res, next) {
-  req.HTTP.get('/api/prompts').then(function (response) {
-    console.log(response.data)
-    res.render('post', {
-      title: 'Share a story',
-      prompts: JSON.stringify(response.data)
-    })
-  }, function (err) {
-    console.error('error getting stories: ')
-    console.error(err)
+  res.render('post2', {
+    layout: false
   })
 })
 
