@@ -70,8 +70,11 @@ div.story h6 {
 
 div#postInfo {
   position: absolute;
-  right:5%;
-  bottom:5%;
+  top:5%;
+  right:0;
+  left:400px;
+  /*width: 400px;*/
+  /*margin: 0 auto;*/
   font-size: 1.6rem;
 }
 
