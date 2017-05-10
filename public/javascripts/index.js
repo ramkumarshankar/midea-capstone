@@ -85,17 +85,11 @@ var Prompt = {
     this.color = '#fff'
   },
   setInactive: function () {
-    this.color = 'rgba(77, 77, 77, 0.7)'
+    this.color = 'rgba(255, 255, 255, 0.7)'
   },
   update: function() {
     var dy = this.newY - this.y;
     this.y += dy * 0.10;
-    // if (this.newY < this.y) {
-    //   this.y -= 2
-    // }
-    // else if (this.newY > this.y) {
-    //   this.y += 8
-    // }
     if (abs(this.newY - this.y) < 1) {
       this.y = this.newY;
     }
@@ -336,6 +330,11 @@ Sketch.create({
     for (i = 0; i < particles.length; i++) {
       particles[i].draw(this)
     }
+
+    // Draw a left column
+    this.fillStyle = 'rgba(46, 45, 77, 0.95)'
+    this.fillRect(0, 0, lenX, this.height)
+
     this.drawActivePromptRect()
     for (i = 0; i < promptsArray.length; i++) {
       promptsArray[i].draw(this)
