@@ -58,7 +58,7 @@ div.story {
   position: absolute;
   top:calc(100% / 2 - 28px);
   left:35%;
-  width: 40%;
+  width: 60%;
   z-index: 100;
   background-color : transparent;
 }
