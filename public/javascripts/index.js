@@ -109,13 +109,13 @@ var Prompt = {
     var words = this.text.split(' ');
     var line = '';
     var maxWidth = 400;
-    var lineHeight = 20;
+    var lineHeight = 32;
     var x = this.x;
     var y = this.y;
     ctx.fillStyle = this.color,
     // ctx.fillStyle = 'rgba(77, 77, 77, 0.5)'
     ctx.globalAlpha = this.alpha;
-    ctx.font = "16px Fedra Sans Pro";
+    ctx.font = "28px Fedra Sans Pro";
     for(var n = 0; n < words.length; n++) {
       var testLine = line + words[n] + ' ';
       var metrics = ctx.measureText(testLine);
@@ -148,7 +148,7 @@ var app = new Vue({
   components: {
     'heading': {
       props: ['story'],
-      template: "<transition name='slidefade'><div class='story'><h3>{{ story }}</h3></div></transition>"
+      template: "<transition name='slidefade'><div class='story'><h1>{{ story }}</h1></div></transition>"
     }
   },
   created: function() {
@@ -208,7 +208,7 @@ Sketch.create({
     }
 
     //Create prompts
-    var xPos = 20;
+    var xPos = 50;
     var y = 0;
     var yStep = Math.floor(height/6)
     for (i = 0; i < prompts.length; i++) {
@@ -219,8 +219,8 @@ Sketch.create({
         prompt.setActive()
         rectX = 0;
         rectY = y - 50;
-        lenX = 400;
-        lenY = 90;
+        lenX = width*0.3;
+        lenY = 120;
       }
       else {
         prompt.setInactive()
