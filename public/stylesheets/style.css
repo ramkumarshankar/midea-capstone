@@ -72,10 +72,10 @@ div#postInfo {
   position: absolute;
   top:5%;
   right:0;
-  left:40%;
+  left:35%;
   /*width: 400px;*/
   /*margin: 0 auto;*/
-  font-size: 1.6rem;
+  font-size: 2.3rem;
 }
 
 div.container {
