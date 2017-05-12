@@ -234,7 +234,7 @@ Sketch.create({
     }
 
     if (!animInProgress && scrollCount == 0) {
-      if (this.millis - this.startTime > 4000) {
+      if (this.millis - this.startTime > 5000) {
         this.startTime = this.millis;
         app.toggleStory();
         if (app.bShowStory == false) {
